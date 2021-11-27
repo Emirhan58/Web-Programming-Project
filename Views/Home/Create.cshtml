@@ -1,0 +1,68 @@
+﻿@model Product
+@{
+        ViewData["Title"] = "Create";
+        List<Category> CategoryList = (List<Category>)ViewData["Categories"];
+}
+
+<h1>Create</h1>
+
+<form asp-controller="Home" asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="Name">Name</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Description">Short Description</label>
+        <input asp-for="ShortDescription" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Description">Description</label>
+        <textarea asp-for="Description" class="form-control" aria-label="Description"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="Categories">Category</label>
+        <select name="CategoriesId" asp-items="@(new SelectList(CategoryList, nameof(Category.Id),nameof(Category.Name)))" class="form-control">
+            <option selected disabled>Select Category</option>
+        </select>
+    </div>
+
+    <div id="CategoryForms" class="form-group">
+
+    </div>
+
+    <input type="button" value="Add Form" id="CategoryForms" onclick="addCategoryForm()"/>
+
+    @*<div class="form-group">
+        <label for="Author">Author</label>
+        <input asp-for="Author" class="form-control" />
+    </div>*@
+    <div class="form-group">
+        <div class="mb-3">
+            <label for="formFile" class="form-label">Resim</label>
+            <input class="form-control" type="file" id="postedFile" name="postedFile" accept=".jpg,.png,.jpeg" onchange="validateFileType()">
+        </div>
+    </div>
+
+    <input type="submit" value="Submit" class="btn btn-primary" />
+
+    <script type="text/javascript">
+        function validateFileType() {
+            var fileName = document.getElementById("postedFile").value;
+            var idxDot = fileName.lastIndexOf(".") + 1;
+            var extFile = fileName.substr(idxDot, fileName.length).toLowerCase();
+            if (extFile != "jpg" && extFile != "jpeg" && extFile != "png") {
+                alert("Lütfen jpg,jpeg veya png formatında dosya yükleyiniz!");
+                document.getElementById("postedFile").value = null;
+            }
+        }
+
+        function addCategoryForm() {
+            var ekle = document.getElementById("CategoryForms");
+            ekle.innerHTML += `@{ <label for="Categories">Category</label>
+                                  <select name="CategoriesId" asp-items="@(new SelectList(CategoryList, nameof(Category.Id),nameof(Category.Name)))" class="form-control">
+                                      <option selected disabled>Select Category</option>
+                                  </select>
+                                }`
+        }
+    </script>
+</form>

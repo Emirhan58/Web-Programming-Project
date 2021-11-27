@@ -1,0 +1,9 @@
+﻿<nav class="navbar navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" asp-action="Index" asp-controller="Home" asp-route-id="@null">SUPER BOOKS</a>
+        <form class="d-flex" asp-action="Search" asp-controller="Home" method="get">
+            <input class="form-control me-2" id="q" name="q" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </form>
+    </div>
+</nav>

@@ -1,0 +1,44 @@
+@model IEnumerable<Product>
+
+@foreach (var book in Model)
+{
+<div class="card mb-3">
+    <div class="row">
+        <div class="col-md-3">
+            <img src="@Url.Content("~/img/books/" + book.ImageAdress)" alt="@book.ShortDescription" class="img-fluid" />
+        </div>
+        <div class="col-md-9">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <a asp-action="Details" asp-controller="Home" asp-route-id="@book.Id">@book.Name</a>
+                </h5>
+                <div>
+                    <p class="card-text">
+                        @book.ShortDescription
+                    </p>
+
+                    <p class="card-text" style="text-align:right">
+                        @foreach (var category in book.Categories)
+                        {
+                            <small class="text-muted">@category.Name</small>
+                            <small>&#160 &#160 </small>
+                        }
+                    </p>
+
+
+                    <a class="btn btn-primary" asp-controller="Home" asp-action="Details" asp-route-id="@book.Id">details</a>
+                    <a class="btn btn-warning" asp-controller="Home" asp-action="Edit" asp-route-id="@book.Id">edit</a>
+
+                    <form asp-controller="Home" asp-action="Delete" method="post" style="display:inline;">
+                        <input type="hidden" name="Name" value="@book.Name" />
+                        <input type="hidden" name="Id" value="@book.Id" />
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>   
+}
+

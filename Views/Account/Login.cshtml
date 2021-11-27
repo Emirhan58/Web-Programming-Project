@@ -1,0 +1,37 @@
+﻿@model LoginModel 
+@{ 
+    Layout = "_Layout2";
+}
+
+<section class="content">
+    <div class="login">
+        <br>
+        <img src="~/img/login.jpg" alt="Login picture" style="width: 20%;">
+        <br>
+        <form asp-action="Login" method="POST">
+            <table>
+                <tr>
+                    <td>
+                        <label asp-for="UserName"></label>
+                    </td>
+                    <td>
+                        <input asp-for="UserName" class="form-control" />
+                    </td>
+                </tr>
+                <tr>
+                    <td><label asp-for="Password"></label></td>
+                    <td>
+                        <input asp-for="Password" class="form-control" />
+                    </td>
+
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" class="btn btn-primary" value="Login" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</section>

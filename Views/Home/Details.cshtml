@@ -1,0 +1,30 @@
+﻿@model Product
+
+<div class="card mb-3">
+    <div class="row no-gutter">
+        <div class="col-md-3">
+            <img src="@Url.Content("~/img/books/" + Model.ImageAdress)" alt="@Model.ShortDescription" class="card-img">
+        </div>
+        <div class="col-md-9">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <a asp-action="Details" asp-controller="Home" asp-route-id="@Model.Id">@Model.Name</a>
+                </h5>
+            </div>
+            <p class="card-text">
+                @Model.Description
+            </p>
+            @foreach (var category in Model.Categories)
+            {
+                <p class="card-text" style="text-align:right">
+                    <small class="text-muted">@category.Name</small>
+                </p>
+            }
+            <p class="card-text">
+                <small class="text-muted">@Model.Author</small>
+            </p>
+            <button type="button" class="btn btn-danger">Delete</button>
+            <button type="button" class="btn btn-warning">Edit</button>
+        </div>
+    </div>
+</div>
