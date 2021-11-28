@@ -1,4 +1,4 @@
-﻿using BuildingFormsWeb.Entity;
+﻿using WebProgrammingProject.Entity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -6,9 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Providers.Entities;
+using WebProgrammingProject.Models;
+using Microsoft.AspNetCore.Authorization;
 
-namespace BuildingFormsWeb.Controllers
+namespace WebProgrammingProject.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class AdminController : Controller
     {
         private UserManager<ApplicationUser> userManager;

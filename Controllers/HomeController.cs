@@ -1,5 +1,5 @@
-﻿using BuildingFormsWeb.Data;
-using BuildingFormsWeb.Entity;
+﻿using WebProgrammingProject.Data;
+using WebProgrammingProject.Entity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Web.Providers.Entities;
 using Microsoft.AspNetCore.Authorization;
 
-namespace BuildingFormsWeb.Controllers
+namespace WebProgrammingProject.Controllers
 {
     public class HomeController : Controller
     {
@@ -22,9 +22,9 @@ namespace BuildingFormsWeb.Controllers
         {
             _context = context;
         }
-
-        [Authorize]
+        
         [HttpGet]
+        [Authorize]
         public IActionResult Index(int? id)
         {
             var books = _context.Products.AsQueryable();
