@@ -1,4 +1,4 @@
-using BuildingFormsWeb.Data;
+using WebProgrammingProject.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using BuildingFormsWeb.Entity;
+using WebProgrammingProject.Entity;
 using Microsoft.AspNetCore.Identity;
 
 namespace BuildingFormsWeb
@@ -73,6 +73,7 @@ namespace BuildingFormsWeb
             });
 
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseMvc(routes =>
             {
