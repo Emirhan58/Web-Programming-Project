@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="/js/adminPanel.js"></script>
+    <link rel="stylesheet" href="/css/styleAdmin.css">
+</head>
+
+@if (User.IsInRole("Admin"))
+{
+    <body>
+        <div>
+            <header>
+                <partial name="_navbarAdmin">
+            </header>
+
+            <div class="container-fluid main-container">
+                <div class="col-md-2 sidebar">
+                    <div class="row">
+                        <div class="absolute-wrapper"> </div>
+                        <div class="side-menu">
+                            <nav class="navbar navbar-default" role="navigation">
+                                <div class="side-menu-container">
+                                    <ul class="nav navbar-nav">
+                                        <li class="active"><a asp-controller="Admin" asp-action="Index"><span class="glyphicon glyphicon-user"></span>Users</a></li>
+                                        <li><a asp-controller="AdminRole" asp-action="Index"><span class="glyphicon glyphicon-star"></span>Roles</a></li>
+                                        <li><a asp-controller="Home" asp-action="Create"><span class="glyphicon glyphicon-book"></span>Add Book</a></li>
+                                        <li><a href="#"><span class="glyphicon glyphicon-plus"></span> Add Category</a></li>
+
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-10 content">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            @ViewData["Title"]
+                        </div>
+                        <div class="panel-body">
+                            @RenderBody()
+                        </div>
+                    </div>
+                </div>
+                <footer class="pull-left footer">
+                    <p class="col-md-12">
+                        <hr class="divider">
+                        Copyright &COPY; 2021 <a href="http://www.emirhankaya.epizy.com">Emirhan KAYA</a>
+                    </p>
+                </footer>
+            </div>
+        </div>
+    </body>
+}
+else
+{
+    @RenderBody()
+    <a asp-controller="Home" asp-action="Index" class="btn btn-danger">Home</a>
+}
+</html>

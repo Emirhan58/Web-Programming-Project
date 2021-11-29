@@ -1,10 +1,9 @@
 ﻿@model Product
 @{
-        ViewData["Title"] = "Create";
-        List<Category> CategoryList = (List<Category>)ViewData["Categories"];
+    ViewData["Title"] = "Create Book";
+    List<Category> CategoryList = (List<Category>)ViewData["Categories"];
+    Layout = "_LayoutAdmin";
 }
-
-<h1>Create</h1>
 
 <form asp-controller="Home" asp-action="Create" method="post" enctype="multipart/form-data">
     <div class="form-group">
@@ -32,10 +31,10 @@
 
     <input type="button" value="Add Form" id="CategoryForms" onclick="addCategoryForm()"/>
 
-    @*<div class="form-group">
+    <div class="form-group">
         <label for="Author">Author</label>
         <input asp-for="Author" class="form-control" />
-    </div>*@
+    </div>
     <div class="form-group">
         <div class="mb-3">
             <label for="formFile" class="form-label">Resim</label>

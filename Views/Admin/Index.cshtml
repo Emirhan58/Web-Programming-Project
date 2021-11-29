@@ -1,13 +1,8 @@
 ﻿@model IEnumerable<ApplicationUser>
-@{ 
-    ViewData["Title"] = "Index";
-    Layout = "_Layout2";
+@{
+    ViewData["Title"] = "Users";
+    Layout = "_LayoutAdmin";
 }
-
-
-<div class="bg-primary text-white p-1 m-1">
-    <h2>User List</h2>
-</div>
 
 <div class="text-danger" asp-validation-summary="ModelOnly"></div>
 
@@ -38,7 +33,7 @@
                 <td>
                     <form asp-route-id="@user.Id" asp-action="Delete" method="post">
                         <button type="submit" class="btn btn-danger">Delete</button>
-                    
+
                         <a asp-action="Update" asp-route-id="@user.Id" class="btn btn-primary">Update</a>
 
                     </form>

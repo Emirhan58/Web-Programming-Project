@@ -1,12 +1,18 @@
 ﻿<nav class="navbar navbar-dark bg-primary">
     <div class="container-fluid">
-        <a class="navbar-brand" asp-action="Index" asp-controller="Home" asp-route-id="@null">SUPER BOOKS</a>
-        <form class="d-flex ml-auto"  asp-action="Search" asp-controller="Home" method="get">
+        <div class="navbar-header">
+            <a class="navbar-brand" asp-action="Index" asp-controller="Home" asp-route-id="@null">SUPER BOOKS</a>
+        </div>
+
+
+        <form class="d-flex ml-auto" asp-action="Search" asp-controller="Home" method="get">
             <input class="form-control me-2" id="q" name="q" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-primary" type="submit">Search</button>
         </form>
-        <form class="d-flex" asp-controller="Account" asp-action="Logout">
-                <input type="submit" class="btn btn-primary" value="Logout"/>
-        </form>
+        <div class="navbar-right">
+            <form class="d-flex" asp-controller="Account" asp-action="Logout">
+                <input type="submit" class="btn btn-primary" value="Logout" />
+            </form>
+        </div>
     </div>
 </nav>
