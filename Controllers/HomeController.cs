@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace WebProgrammingProject.Controllers
 {
+
     public class HomeController : Controller
     {
         private readonly ApplicationIdentityDbContext _context;
@@ -47,6 +48,7 @@ namespace WebProgrammingProject.Controllers
             return View(myBook);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Create()
         {
@@ -54,10 +56,10 @@ namespace WebProgrammingProject.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Create(Product product,List<int> CategoriesId, IFormFile postedFile)
         {
-            product.Author = _context.Authors.First();
             if (postedFile != null)
             {
                 string fileName = System.IO.Path.GetFileName(postedFile.FileName);
@@ -79,7 +81,7 @@ namespace WebProgrammingProject.Controllers
             return RedirectToAction("Index");
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -88,6 +90,7 @@ namespace WebProgrammingProject.Controllers
             return View(book);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Edit(Product product, IFormFile postedFile, string imAdress)
         {
@@ -117,6 +120,7 @@ namespace WebProgrammingProject.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Delete(int id)
         {

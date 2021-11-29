@@ -27,7 +27,15 @@ namespace WebProgrammingProject.Controllers
         public IActionResult Login(string returnUrl)
         {
             ViewBag.returnUrl = returnUrl;
-            return View();
+
+            if (!User.Identity.IsAuthenticated)
+            {
+                return View();
+            }
+            else
+            {
+                return Content("You are already logged");
+            }
         }
         
         [HttpPost]
