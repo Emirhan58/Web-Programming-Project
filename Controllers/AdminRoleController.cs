@@ -22,18 +22,19 @@ namespace WebProgrammingProject.Controllers
             userManager = _userManager;
         }
 
+        // ROLE MANAGER PANEL (IN ADMIN PANEL)
         public IActionResult Index()
         {
             return View(roleManager.Roles);
         }
 
-        [HttpGet]
+        [HttpGet] // CREATE ROLE
         public IActionResult Create()
         {
             return View();
         }
 
-        [HttpPost]
+        [HttpPost]  // CREATE ROLE
         public async Task<IActionResult> Create(string name)
         {
             if(ModelState.IsValid)
@@ -54,7 +55,7 @@ namespace WebProgrammingProject.Controllers
             return View(name);
         }
 
-        [HttpGet]
+        [HttpGet] // EDIT ROLE
         public async Task<IActionResult> Edit(string id)
         {
             IdentityRole role = await roleManager.FindByIdAsync(id);
@@ -80,7 +81,7 @@ namespace WebProgrammingProject.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        [HttpPost] // EDIT ROLE
         public async Task<IActionResult> Edit(RoleEditModel model)
         {
             IdentityResult result;
@@ -134,7 +135,7 @@ namespace WebProgrammingProject.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost]  // DELETE ROLE
         public async Task<IActionResult> Delete(string id)
         {
             var role = await roleManager.FindByIdAsync(id);

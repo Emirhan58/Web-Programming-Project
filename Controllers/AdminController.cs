@@ -25,18 +25,19 @@ namespace WebProgrammingProject.Controllers
             passwordHasher = passHasher;
         }
 
+        // ADMIN PANEL USERS
         public IActionResult Index()
         {
             return View(userManager.Users);
         }
         
-        [HttpGet]
+        [HttpGet] // CREATE USER
         public IActionResult Create()
         {
             return View();
         }
 
-        [HttpPost]
+        [HttpPost] // CREATE USER
         public async Task<IActionResult> Create(RegisterModel model)
         {
             if (ModelState.IsValid)
@@ -46,8 +47,8 @@ namespace WebProgrammingProject.Controllers
                 user.Email = model.Email;
 
                 var result = await userManager.CreateAsync(user, model.Password);
-
-                if (result.Succeeded)
+                var result2 = await userManager.AddToRoleAsync(user, "User");
+                if (result.Succeeded && result2.Succeeded)
                 {
                     return RedirectToAction("Index");
                 }
@@ -62,7 +63,7 @@ namespace WebProgrammingProject.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        [HttpPost] // DELETE USER
         public async Task<IActionResult> Delete(string Id)
         {
             var user = await userManager.FindByIdAsync(Id);
@@ -90,7 +91,7 @@ namespace WebProgrammingProject.Controllers
             return View("Index", userManager.Users);
         }
 
-        [HttpGet]
+        [HttpGet] // EDIT USER
         public async Task<IActionResult> Update(string Id)
         {
             var user = await userManager.FindByIdAsync(Id);
@@ -105,7 +106,7 @@ namespace WebProgrammingProject.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost]  // EDIT USER
         public async Task<IActionResult> Update(string Id,string Password, string Email)
         {
             var user = await userManager.FindByIdAsync(Id);

@@ -70,6 +70,48 @@ namespace WebProgrammingProject.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return View();
+            }
+            else
+            {
+                return Content("You are already logged");
+            }
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register(RegisterModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                ApplicationUser user = new ApplicationUser();
+                user.UserName = model.UserName;
+                user.Email = model.Email;
+
+                var result = await userManager.CreateAsync(user, model.Password);
+                var result2 = await userManager.AddToRoleAsync(user, "User");
+                if (result.Succeeded && result2.Succeeded)
+                {
+                    return RedirectToAction("Login");
+                }
+                else
+                {
+                    foreach (var item in result.Errors)
+                    {
+                        ModelState.AddModelError("", item.Description);
+                    }
+                }
+            }
+            return View(model);
+        }
+
         public IActionResult AccessDenied()
         {
             return View("AccessDenied");

@@ -12,9 +12,17 @@ namespace WebProgrammingProject.Models
         public string UserName { get; set; }
         
         [Required]
+        [DataType(DataType.Password)]
+        [UIHint("password")]
         public string Password { get; set; }
-        
+
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+
         [Required]
+        [EmailAddress]
+        [UIHint("email")]
         public string Email { get; set; }
     }
 }

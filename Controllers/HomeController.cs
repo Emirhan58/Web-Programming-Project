@@ -25,7 +25,7 @@ namespace WebProgrammingProject.Controllers
         }
         
         [HttpGet]
-        [Authorize]
+        [Authorize] // MAIN PAGE
         public IActionResult Index(int? id)
         {
             var books = _context.Products.AsQueryable();
@@ -40,6 +40,7 @@ namespace WebProgrammingProject.Controllers
             return View(books.Include(i => i.Categories));
         }
 
+        // BOOK DETAILS
         public IActionResult Details(int id)
         {
             ViewData["Categories"] = _context.Categories.ToList();
@@ -49,7 +50,7 @@ namespace WebProgrammingProject.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpGet]
+        [HttpGet]  // CREATE BOOK
         public IActionResult Create()
         {
             ViewData["Categories"] = _context.Categories.ToList();
@@ -57,7 +58,7 @@ namespace WebProgrammingProject.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPost]
+        [HttpPost] // CREATE BOOK
         public IActionResult Create(Product product,List<int> CategoriesId, IFormFile postedFile)
         {
             if (postedFile != null)
@@ -82,7 +83,7 @@ namespace WebProgrammingProject.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpGet]
+        [HttpGet] // EDIT BOOK
         public IActionResult Edit(int id)
         {
             ViewData["Categories"] = _context.Categories.ToList();
@@ -91,7 +92,7 @@ namespace WebProgrammingProject.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPost]
+        [HttpPost] // EDIT BOOK
         public IActionResult Edit(Product product, IFormFile postedFile, string imAdress)
         {
             if (postedFile != null)
@@ -121,7 +122,7 @@ namespace WebProgrammingProject.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPost]
+        [HttpPost] // DELETE BOOK
         public IActionResult Delete(int id)
         {
             Product book = _context.Products.Where(book => book.Id == id).Single();
@@ -135,7 +136,7 @@ namespace WebProgrammingProject.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
+        [HttpGet] // SEARCH BOOK
         public IActionResult Search(string q)
         {
             // gelen q değeri ile arama işlemi yapılır.
