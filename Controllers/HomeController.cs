@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace WebProgrammingProject.Controllers
 {
 
+    [RequireHttps]
     public class HomeController : Controller
     {
         private readonly ApplicationIdentityDbContext _context;

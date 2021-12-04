@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace WebProgrammingProject.Controllers
 {
+    [RequireHttps]
     [Authorize(Roles ="Admin")]
     public class AdminController : Controller
     {
@@ -47,10 +48,14 @@ namespace WebProgrammingProject.Controllers
                 user.Email = model.Email;
 
                 var result = await userManager.CreateAsync(user, model.Password);
-                var result2 = await userManager.AddToRoleAsync(user, "User");
-                if (result.Succeeded && result2.Succeeded)
+                if (result.Succeeded)
                 {
-                    return RedirectToAction("Index");
+                    var result2 = await userManager.AddToRoleAsync(user, "User");
+                    
+                    if (result2.Succeeded)
+                    {
+                        return RedirectToAction("Index");
+                    }
                 }
                 else
                 {

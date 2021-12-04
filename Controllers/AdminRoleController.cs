@@ -10,6 +10,7 @@ using WebProgrammingProject.Models;
 
 namespace WebProgrammingProject.Controllers
 {
+    [RequireHttps]
     [Authorize(Roles ="Owner")]
     public class AdminRoleController : Controller
     {
