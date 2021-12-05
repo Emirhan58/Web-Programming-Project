@@ -18,6 +18,7 @@ namespace WebProgrammingProject.Models
 
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Required]
         public string ConfirmPassword { get; set; }
 
         [Required]

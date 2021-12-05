@@ -24,6 +24,8 @@ namespace WebProgrammingProject.Controllers
         private UserManager<ApplicationUser> userManager;
         private SignInManager<ApplicationUser> signinManager;
         private readonly ILogger<AccountController> logger;
+        private IPasswordValidator<ApplicationUser> passwordValidator;
+        private IPasswordHasher<ApplicationUser> passwordHasher;
         private IWebHostEnvironment Environment;
 
         public AccountController(
@@ -31,13 +33,17 @@ namespace WebProgrammingProject.Controllers
             UserManager<ApplicationUser> _userManager,
             SignInManager<ApplicationUser> _signinManager,
             ILogger<AccountController> _logger,
-            IWebHostEnvironment _Environment)
+            IWebHostEnvironment _Environment,
+            IPasswordValidator<ApplicationUser> _passwordValidator,
+            IPasswordHasher<ApplicationUser> _passwordHasher)
         {
             dbcontext = _dbcontext;
             userManager = _userManager;
             signinManager = _signinManager;
             logger = _logger;
             Environment = _Environment;
+            passwordValidator = _passwordValidator;
+            passwordHasher = _passwordHasher;
         }
 
         [AllowAnonymous]
@@ -92,6 +98,103 @@ namespace WebProgrammingProject.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(string Email)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByEmailAsync(Email);
+                if (user != null)
+                {
+                    BuildEmailTemplateForForgotPassword(Email);
+                }
+                else
+                {
+                    ModelState.AddModelError("Email", "Invalid Email");
+                }
+            }
+            return View();
+        }
+
+        public async void BuildEmailTemplateForForgotPassword(string Email)
+        {
+            string body = System.IO.File.ReadAllText(this.Environment.ContentRootPath + "/EmailTemplate/" + "Text2" + ".cshtml");
+            var regInfo = await userManager.FindByEmailAsync(Email);
+            var url = "https://localhost:44368/" + "Account/RenewPassword?Email=" + Email;
+            body = body.Replace("@ViewBag.ConfirmationLink", url);
+            body = body.ToString();
+            BuildEmailTemplate("Please confirm your email for renew password!", body, regInfo.Email);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult RenewPassword(string Email)
+        {
+            ViewBag.forgotterEmail = Email;
+            return View();
+        }
+
+        [HttpPost]  // Update password
+        [AllowAnonymous]
+        public async Task<IActionResult> RenewPassword(RegisterModel model)
+        {
+            ViewBag.forgotterEmail = model.Email;
+            var user = await userManager.FindByEmailAsync(model.Email);
+            
+            if (user != null)
+            {
+                IdentityResult validPass = null;
+
+                if (!string.IsNullOrEmpty(model.Password))
+                {
+                    validPass = await passwordValidator.ValidateAsync(userManager, user, model.Password);
+
+                    if (validPass.Succeeded)
+                    {
+                        user.PasswordHash = passwordHasher.HashPassword(user, model.Password);
+                    }
+                    else
+                    {
+                        foreach (var item in validPass.Errors)
+                        {
+                            ModelState.AddModelError("", item.Description);
+                        }
+                    }
+                }
+
+                if (validPass.Succeeded)
+                {
+                    var result = await userManager.UpdateAsync(user);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Login");
+                    }
+                    else
+                    {
+                        foreach (var item in result.Errors)
+                        {
+                            ModelState.AddModelError("", item.Description);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "User not found");
+            }
+
+            return View();
+        }
 
         [HttpGet]
         [AllowAnonymous]
@@ -130,9 +233,10 @@ namespace WebProgrammingProject.Controllers
                     {
                         ModelState.AddModelError("", item.Description);
                     }
+                    return View(model);
                 }
             }
-            return View(model);
+            return View("Login");
         }
 
         [AllowAnonymous]
