@@ -94,7 +94,7 @@ namespace WebProgrammingProject.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost] // EDIT BOOK
-        public IActionResult Edit(Product product, IFormFile postedFile, string imAdress)
+        public IActionResult Edit(Product product, List<int> CategoriesId, IFormFile postedFile, string imAdress)
         {
             if (postedFile != null)
             {
@@ -117,10 +117,18 @@ namespace WebProgrammingProject.Controllers
             {
                 product.ImageAdress = imAdress;
             }
-            _context.Products.Update(product);
+
+            var myBookList = _context.Products.Where(book => book.Id == product.Id).AsQueryable();
+            Product myBook = myBookList.Include(i => i.Categories).Single();
+
+            myBook.Categories = _context.Categories.Where(cat => CategoriesId.Contains(cat.Id)).ToList();
+            product.Categories = myBook.Categories;
+            myBook = product;
             _context.SaveChanges();
+
             return RedirectToAction("Index");
         }
+        
 
         [Authorize(Roles = "Admin")]
         [HttpPost] // DELETE BOOK

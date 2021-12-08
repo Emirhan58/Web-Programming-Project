@@ -40,17 +40,26 @@ namespace WebProgrammingProject.Controllers
         {
             if(ModelState.IsValid)
             {
-                var result = await roleManager.CreateAsync(new IdentityRole(name));
-                if (result.Succeeded)
+
+                var user = await roleManager.FindByNameAsync(name);
+                if (user == null)
                 {
-                    return RedirectToAction("Index");
+                    var result = await roleManager.CreateAsync(new IdentityRole(name));
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError("", error.Description);
+                        }
+                    }
                 }
                 else
                 {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
+                    ModelState.AddModelError("", "This role already exists");
                 }
             }
             return View(name);

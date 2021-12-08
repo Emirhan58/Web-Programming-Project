@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web.Providers.Entities;
 using WebProgrammingProject.Models;
 using Microsoft.AspNetCore.Authorization;
+using WebProgrammingProject.Data;
 
 namespace WebProgrammingProject.Controllers
 {
@@ -18,12 +19,16 @@ namespace WebProgrammingProject.Controllers
         private UserManager<ApplicationUser> userManager;
         private IPasswordValidator<ApplicationUser> passwordValidator;
         private IPasswordHasher<ApplicationUser> passwordHasher;
-
-        public AdminController(UserManager<ApplicationUser> _userManager, IPasswordValidator<ApplicationUser> passValidator, IPasswordHasher<ApplicationUser> passHasher)
+        private readonly ApplicationIdentityDbContext context;
+        public AdminController(UserManager<ApplicationUser> _userManager, 
+            IPasswordValidator<ApplicationUser> passValidator, 
+            IPasswordHasher<ApplicationUser> passHasher,
+            ApplicationIdentityDbContext _context)
         {
             userManager = _userManager;
             passwordValidator = passValidator;
             passwordHasher = passHasher;
+            context = _context;
         }
 
         // ADMIN PANEL USERS
@@ -31,7 +36,77 @@ namespace WebProgrammingProject.Controllers
         {
             return View(userManager.Users);
         }
-        
+
+        // ADMIN PANEL CATEGORIES
+        public IActionResult Categories()
+        {
+            return View(context.Categories.ToList());
+        }
+
+
+        [HttpGet] // CREATE CATEGORY
+        public IActionResult CreateCategory()
+        {
+            return View();
+        }
+
+        [HttpPost] // CREATE CATEGORY
+        public IActionResult CreateCategory(string CategoryName)
+        {
+            if(ModelState.IsValid)
+            {
+                if(!context.Categories.Where(c => c.Name == CategoryName).Any())
+                {
+                    Category category = new Category() { Name = CategoryName };
+                    context.Categories.Add(category);
+                    context.SaveChanges();
+                    return View("Categories", context.Categories.ToList());
+                }
+                else
+                {
+                    ModelState.AddModelError("", "This category already exists");
+                    return View();
+                }
+            }
+
+            return View();
+        }
+
+        [HttpGet] // UPDATE CATEGORY
+        public IActionResult UpdateCategory(int Id)
+        {
+            Category category = context.Categories.Where(cat => cat.Id == Id).Single();
+            return View(category);
+        }
+
+        [HttpPost] // UPDATE CATEGORY
+        public IActionResult UpdateCategory(int Id, string Name)
+        {
+            Category category = context.Categories.Where(cat => cat.Id == Id).Single();
+            
+            if(!context.Categories.Where(cat => cat.Name == Name).Any())
+            {
+                category.Name = Name;
+                context.Categories.Update(category);
+                context.SaveChanges();
+                return View("Categories", context.Categories.ToList());
+            }
+            else
+            {
+                ModelState.AddModelError("", "This category already exists");
+                return View(category);
+            }
+        }
+
+        [HttpPost] // DELETE CATEGORY
+        public IActionResult DeleteCategory(int Id)
+        {
+            Category category = context.Categories.Where(cat => cat.Id == Id).Single();
+            context.Categories.Remove(category);
+            context.SaveChanges();
+            return View("Categories", context.Categories.ToList());
+        }
+
         [HttpGet] // CREATE USER
         public IActionResult Create()
         {
