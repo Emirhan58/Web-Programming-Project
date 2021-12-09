@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Create Category";
+    Layout = "_LayoutAdmin";
+}
+
+<form class="m-1 p-1" asp-action="CreateCategory" method="post">
+
+    <div class="text-danger" asp-validation-summary="All"></div>
+
+    <div class="form-group">
+        <input name="CategoryName" class="form-control" placeholder="Category Name"/>
+    </div>
+    <input type="submit" class="btn btn-primary" value="Enter" />
+</form>
