@@ -2,7 +2,7 @@
 
 <div class="list-group">
 
-    <a href="/" class="list-group-item list-group-item-action @(ViewBag.SelectedCategory==null ? "active" : "")">Tüm Kategoriler</a>
+    <a href="/" class="list-group-item list-group-item-action @(ViewBag.SelectedCategory==null ? "active" : "")">@localizer["AllCategories"]</a>
 
     @foreach (var i in Model)
     {

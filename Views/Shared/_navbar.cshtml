@@ -4,18 +4,19 @@
             <a class="navbar-brand" asp-action="Index" asp-controller="Home" asp-route-id="@null">SUPER BOOKS</a>
             @if (User.IsInRole("Admin"))
             {
-                <a class="btn btn-primary" asp-action="Index" asp-controller="Admin">Admin Panel</a>
+                <a class="btn btn-primary" asp-action="Index" asp-controller="Admin">@localizer["AdminPanel"]</a>
             }
-        </div>
 
+        </div>
+        <partial name="_Culture" />
 
         <form class="d-flex ml-auto" asp-action="Search" asp-controller="Home" method="get">
-            <input class="form-control me-2" id="q" name="q" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-primary" type="submit">Search</button>
+            <input class="form-control me-2" id="q" name="q" type="search" placeholder="@localizer["SearchBook"]" aria-label="Search">
+            <button class="btn btn-primary" type="submit">@localizer["SearchBook"]</button>
         </form>
         <div class="navbar-right">
             <form class="d-flex" asp-controller="Account" asp-action="Logout">
-                <input type="submit" class="btn btn-primary" value="Logout" />
+                <input type="submit" class="btn btn-primary" value="@localizer["LogoutButton"]" />
             </form>
         </div>
     </div>

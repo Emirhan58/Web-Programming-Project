@@ -2,13 +2,18 @@
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" asp-action="Index" asp-controller="Admin" asp-route-id="@null">
-                Administrator
+                @localizer["Administrator"]
             </a>
+
         </div>
+
+        <partial name="_Culture" />
+
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li><a asp-controller="Home" asp-action="Index" target="_blank">Home</a></li>
+                <li><a asp-controller="Home" asp-action="Index" target="_blank">@localizer["HomeButton"]</a></li>
             </ul>
+
         </div>
     </div>
 </nav>

@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<IdentityRole>
 @{
-    ViewData["Title"] = "Roles";
+    ViewData["Title"] = localizer["Roles"];
     Layout = "_LayoutAdmin";
 }
 
@@ -13,9 +13,9 @@
 
 <table class="table table-bordered table-striped table-sm m-1 p-1">
     <tr>
-        <th>Role Id</th>
-        <th>Role Name</th>
-        <th>Users</th>
+        <th>@localizer["Role Id"]</th>
+        <th>@localizer["Role Name"]</th>
+        <th>@localizer["Users"]</th>
         <th></th>
     </tr>
 
@@ -23,7 +23,7 @@
     {
         <tr>
             <td colspan="4" class="text-center">
-                No Roles
+                @localizer["No Roles"]
             </td>
         </tr>
     }
@@ -37,9 +37,9 @@
                 <td identity-role="@role.Id"></td>
                 <td>
                     <form asp-route-id="@role.Id" asp-action="Delete" method="post">
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="submit" class="btn btn-danger">@localizer["Delete"]</button>
 
-                        <a asp-action="Edit" asp-route-id="@role.Id" class="btn btn-primary">Edit</a>
+                        <a asp-action="Edit" asp-route-id="@role.Id" class="btn btn-primary">@localizer["Edit"]</a>
 
                     </form>
                 </td>
@@ -50,5 +50,5 @@
 </table>
 
 <a asp-action="Create" class="btn btn-primary">
-    Create Role
+    @localizer["Create Role"]
 </a>

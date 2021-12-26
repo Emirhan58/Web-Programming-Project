@@ -1,8 +1,8 @@
-using BuildingFormsWeb.Data;
+using WebProgrammingProject.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 
-namespace BuildingFormsWeb.ViewComponents
+namespace WebProgrammingProject.ViewComponents
 {
     public class CategoryMenuViewComponent : ViewComponent
     {

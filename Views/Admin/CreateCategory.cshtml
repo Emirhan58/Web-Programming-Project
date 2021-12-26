@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Create Category";
+    ViewData["Title"] = localizer["Create Category"];
     Layout = "_LayoutAdmin";
 }
 
@@ -8,7 +8,7 @@
     <div class="text-danger" asp-validation-summary="All"></div>
 
     <div class="form-group">
-        <input name="CategoryName" class="form-control" placeholder="Category Name"/>
+        <input name="CategoryName" class="form-control" placeholder="@localizer["Category Name"]"/>
     </div>
-    <input type="submit" class="btn btn-primary" value="Enter" />
+    <input type="submit" class="btn btn-primary" value="@localizer["Enter"]" />
 </form>

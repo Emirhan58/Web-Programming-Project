@@ -1,8 +1,8 @@
 ﻿@{ 
-    ViewData["Title"] = "AccessDenied";
+    ViewData["Title"] = localizer["AccessDenied"];
     Layout = "_LayoutAdmin";
 }
 
 <div class="bg-danger mb-1 p-2 text-white">
-    Erişim yetkiniz yok.
+    @localizer["DontHavePermission"]
 </div>

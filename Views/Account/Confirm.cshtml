@@ -1,19 +1,19 @@
 ﻿@{
     Layout = "_Layout2";
-    ViewBag.Title = "Confirm";
+    ViewBag.Title = localizer["Confirm"];
 }
 
 <br />
 <br />
 
 <div class="alert alert-warning" id="previous">
-    <strong>Confirm Your Account</strong>
-    <input type="submit" class="btn btn-warning" value="Confirm" onclick="Verified()" />
+    <strong>@localizer["Confirm Your Account"]</strong>
+    <input type="submit" class="btn btn-warning" value="@localizer["Confirm"]" onclick="Verified()" />
 </div>
 <div class="alert alert-success" id="after">
-    <strong><span class="glyphicon glyphicon-ok"></span> Your Account Is Active Now</strong>
+    <strong><span class="glyphicon glyphicon-ok"></span>@localizer["Your Account Is Active Now"]</strong>
     <br />
-    <a asp-action="Login" class="btn btn-primary">Login</a>
+    <a asp-action="Login" class="btn btn-primary">@localizer["Login"]</a>
 </div>
 
 

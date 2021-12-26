@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Product>
+﻿
+@model IEnumerable<Product>
 @{
     ViewData["Title"] = "Index";
 }
@@ -7,7 +8,7 @@
 
 @if (User.IsInRole("Admin")) {
     <a class="btn btn-primary" asp-controller="Home" asp-action="Create">
-        Create
+        @localizer["CreateBook"]
     </a>
 }
 

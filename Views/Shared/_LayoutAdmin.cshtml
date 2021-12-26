@@ -27,10 +27,10 @@
                             <nav class="navbar navbar-default" role="navigation">
                                 <div class="side-menu-container">
                                     <ul class="nav navbar-nav">
-                                        <li class="active"><a asp-controller="Admin" asp-action="Index"><span class="glyphicon glyphicon-user"></span>Users</a></li>
-                                        <li><a asp-controller="AdminRole" asp-action="Index"><span class="glyphicon glyphicon-star"></span>Roles</a></li>
-                                        <li><a asp-controller="Admin" asp-action="Categories"><span class="glyphicon glyphicon-th-list"></span>Categories</a></li>
-                                        <li><a asp-controller="Home" asp-action="Create"><span class="glyphicon glyphicon-book"></span>Add Book</a></li>
+                                        <li class="active"><a asp-controller="Admin" asp-action="Index"><span class="glyphicon glyphicon-user"></span>@localizer["Users"]</a></li>
+                                        <li><a asp-controller="AdminRole" asp-action="Index"><span class="glyphicon glyphicon-star"></span>@localizer["Roles"]</a></li>
+                                        <li><a asp-controller="Admin" asp-action="Categories"><span class="glyphicon glyphicon-th-list"></span>@localizer["Categories"]</a></li>
+                                        <li><a asp-controller="Home" asp-action="Create"><span class="glyphicon glyphicon-book"></span>@localizer["AddBook"]</a></li>
                                     </ul>
                                 </div>
                             </nav>
@@ -50,7 +50,7 @@
                 <footer class="pull-left footer">
                     <p class="col-md-12">
                         <hr class="divider">
-                        Copyright &COPY; 2021 <a href="http://www.emirhankaya.epizy.com">Emirhan KAYA</a>
+                        @localizer["Copyright"] <a href="http://www.emirhankaya.epizy.com">Emirhan KAYA</a>
                     </p>
                 </footer>
             </div>
@@ -60,6 +60,6 @@
 else
 {
     @RenderBody()
-    <a asp-controller="Home" asp-action="Index" class="btn btn-danger">Home</a>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-danger">@localizer["Home"]</a>
 }
 </html>

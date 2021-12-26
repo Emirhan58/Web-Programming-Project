@@ -1,27 +1,27 @@
 ﻿@model Product
 @{
-    ViewData["Title"] = "Create Book";
+    ViewData["Title"] = localizer["CreateBookTitle"];
     List<Category> CategoryList = (List<Category>)ViewData["Categories"];
     Layout = "_LayoutAdmin";
 }
 
 <form asp-controller="Home" asp-action="Create" method="post" enctype="multipart/form-data">
     <div class="form-group">
-        <label for="Name">Name</label>
+        <label for="Name">@localizer["BookName"]</label>
         <input asp-for="Name" class="form-control" />
     </div>
     <div class="form-group">
-        <label for="Description">Short Description</label>
+        <label for="Description">@localizer["ShortDescription"]</label>
         <input asp-for="ShortDescription" class="form-control" />
     </div>
     <div class="form-group">
-        <label for="Description">Description</label>
+        <label for="Description">@localizer["BookDescription"]</label>
         <textarea asp-for="Description" class="form-control" aria-label="Description"></textarea>
     </div>
     <div class="form-group">
-        <label for="Categories">Category</label>
+        <label for="Categories">@localizer["BookCategory"]</label>
         <select name="CategoriesId" asp-items="@(new SelectList(CategoryList, nameof(Category.Id),nameof(Category.Name)))" class="form-control">
-            <option selected disabled>Select Category</option>
+            <option selected disabled>@localizer["SelectCategory"]</option>
         </select>
     </div>
 
@@ -29,20 +29,20 @@
 
     </div>
 
-    <input type="button" value="Add Category" id="CategoryForms" onclick="addCategoryForm()"/>
+    <input type="button" value="@localizer["AddCategory"]" id="CategoryForms" onclick="addCategoryForm()"/>
 
     <div class="form-group">
-        <label for="Author">Author</label>
+        <label for="Author">@localizer["BookAuthor"]</label>
         <input asp-for="Author" class="form-control" />
     </div>
     <div class="form-group">
         <div class="mb-3">
-            <label for="formFile" class="form-label">Resim</label>
+            <label for="formFile" class="form-label">@localizer["BookImage"]</label>
             <input class="form-control" type="file" id="postedFile" name="postedFile" accept=".jpg,.png,.jpeg" onchange="validateFileType()">
         </div>
     </div>
 
-    <input type="submit" value="Submit" class="btn btn-primary" />
+    <input type="submit" value="@localizer["Create"]" class="btn btn-primary" />
 
     <script type="text/javascript">
         function validateFileType() {

@@ -26,16 +26,16 @@
                     </p>
 
 
-                    <a class="btn btn-primary" asp-controller="Home" asp-action="Details" asp-route-id="@book.Id">details</a>
+                    <a class="btn btn-primary" asp-controller="Home" asp-action="Details" asp-route-id="@book.Id">@localizer["BookDetailsButton"]</a>
                     
                     @if (User.IsInRole("Admin"))
                     {
-                    <a class="btn btn-warning" asp-controller="Home" asp-action="Edit" asp-route-id="@book.Id">edit</a>
+                <a class="btn btn-warning" asp-controller="Home" asp-action="Edit" asp-route-id="@book.Id">@localizer["EditBookButton"]</a>
 
                     <form asp-controller="Home" asp-action="Delete" method="post" style="display:inline;">
                         <input type="hidden" name="Name" value="@book.Name" />
                         <input type="hidden" name="Id" value="@book.Id" />
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="submit" class="btn btn-danger">@localizer["DeleteBookButton"]</button>
                     </form>
                     }
                 </div>
