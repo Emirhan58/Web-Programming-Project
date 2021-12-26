@@ -69,21 +69,25 @@ namespace WebProgrammingProject.Controllers
             if (ModelState.IsValid)
             {
                 var user = await userManager.FindByEmailAsync(model.Email);
-                
-                if (user.EmailConfirmed == false)
-                {
-                    ModelState.AddModelError("EmailComfirmed", "Email has not comfirmed yet.");
-                    return View(model);
-                }
+
+
                 if (user != null)
                 {
+                    if (user.EmailConfirmed == false)
+                    {
+                        ModelState.AddModelError("EmailComfirmed", "Email has not comfirmed yet.");
+                        return View(model);
+                    }
                     await signinManager.SignOutAsync();
-                    var result = await signinManager.PasswordSignInAsync(user, model.Password,false,false);
+                    var result = await signinManager.PasswordSignInAsync(user, model.Password, false, false);
                     if (result.Succeeded)
                     {
                         return Redirect(returnUrl ?? "/");
                     }
                 }
+
+                
+                
                 ModelState.AddModelError("Email", "Invalid Email or Password");
             }
 

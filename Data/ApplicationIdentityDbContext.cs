@@ -1,4 +1,4 @@
-﻿using BuildingFormsWeb.Entity;
+﻿using WebProgrammingProject.Entity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BuildingFormsWeb.Data
+namespace WebProgrammingProject.Data
 {
     public class ApplicationIdentityDbContext : IdentityDbContext<ApplicationUser>
     {
@@ -17,6 +17,5 @@ namespace BuildingFormsWeb.Data
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Author> Authors { get; set; }
     }
 }

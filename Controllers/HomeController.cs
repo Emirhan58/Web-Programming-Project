@@ -11,6 +11,8 @@ using System.IO;
 using Microsoft.EntityFrameworkCore;
 using System.Web.Providers.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.AspNetCore.Localization;
 
 namespace WebProgrammingProject.Controllers
 {
@@ -18,17 +20,23 @@ namespace WebProgrammingProject.Controllers
     [RequireHttps]
     public class HomeController : Controller
     {
+
+        private readonly IHtmlLocalizer<HomeController> _localizer;
         private readonly ApplicationIdentityDbContext _context;
 
-        public HomeController(ApplicationIdentityDbContext context)
+        public HomeController(ApplicationIdentityDbContext context, IHtmlLocalizer<HomeController> localizer)
         {
             _context = context;
+            _localizer = localizer;
         }
         
         [HttpGet]
         [Authorize] // MAIN PAGE
         public IActionResult Index(int? id)
         {
+            var test = _localizer["CreateBook"];
+            ViewData["CreateBook"] = test;
+            
             var books = _context.Products.AsQueryable();
             ViewData["Categories"] = _context.Categories.ToList();
             if (id != null)
@@ -40,6 +48,16 @@ namespace WebProgrammingProject.Controllers
             }
             return View(books.Include(i => i.Categories));
         }
+
+        [HttpPost]
+        public IActionResult CultureManagement(string culture,string returnUrl)
+        {
+            Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName, CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.Now.AddDays(30) });
+
+            return LocalRedirect(returnUrl);
+        }
+
 
         // BOOK DETAILS
         public IActionResult Details(int id)

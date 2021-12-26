@@ -18,8 +18,7 @@ namespace WebProgrammingProject.Entity
         public string Description { get; set; }
         public string ImageAdress { get; set; }
         [Required]
-        public Author Author { get; set; }
-        public int AuthorId { get; set; }
+        public string Author { get; set; }
         public List<Category> Categories { get; set; }
     }
 }

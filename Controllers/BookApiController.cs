@@ -1,10 +1,11 @@
 ﻿
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Http;
+using Microsoft.AspNetCore.Http;
 using WebProgrammingProject.Data;
 using WebProgrammingProject.Entity;
 
@@ -12,7 +13,9 @@ using WebProgrammingProject.Entity;
 
 namespace WebProgrammingProject.Controllers
 {
-    public class BookApiController : ApiController
+    [Route("Api/[controller]")]
+    [ApiController]
+    public class BookApiController : ControllerBase
     {
         private readonly ApplicationIdentityDbContext context;
         public BookApiController(ApplicationIdentityDbContext _context)
@@ -21,14 +24,14 @@ namespace WebProgrammingProject.Controllers
         }
 
 
-        
+        [HttpGet]
         public IEnumerable<Product> Get()
         {
-            return context.Products.ToList();
+            return context.Products.Include(b => b.Categories).ToList();
         }
 
-        
-        public IHttpActionResult Get(int id)
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
         {
             var book = (context.Products.Where(p => p.Id == id).Include(b => b.Categories)).FirstOrDefault();
             if (book == null)
@@ -43,7 +46,7 @@ namespace WebProgrammingProject.Controllers
 
         // POST api/<BookApiController>
         [HttpPost]
-        public IHttpActionResult Post([FromBody] Product newBook)
+        public IActionResult Post([FromBody] Product newBook)
         {
             var bookName = newBook != null ? newBook.Name : "";
             var author = newBook != null ? newBook.Author : "";

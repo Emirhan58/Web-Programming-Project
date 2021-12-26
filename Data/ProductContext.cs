@@ -1,4 +1,4 @@
-﻿using BuildingFormsWeb.Entity;
+﻿using WebProgrammingProject.Entity;
 using Microsoft.EntityFrameworkCore;
 //using System;
 //using System.Collections.Generic;
