@@ -15,6 +15,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebProgrammingProject.Entity;
 using Microsoft.AspNetCore.Identity;
+using System.Web.Http;
+using Microsoft.AspNetCore.Mvc.Razor;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Options;
 
 namespace BuildingFormsWeb
 {
@@ -36,11 +41,30 @@ namespace BuildingFormsWeb
             //    options.UseSqlServer(Configuration.GetConnectionString("MsSqlConnection"))
             //);
 
-            services.AddDbContext<ApplicationIdentityDbContext>(options => 
-                options.UseSqlServer(Configuration.GetConnectionString("MsSqlConnection"))    
+            services.AddDbContext<ApplicationIdentityDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("MsSqlConnection"))
             );
 
+            //services.AddDbContext<ApplicationIdentityDbContext>(options =>
+            //    options.UseNpgsql(Configuration.GetConnectionString("PostgreConnection"))
+            //);
+            services.AddLocalization(opt => { opt.ResourcesPath = "Resources"; });
 
+            services.Configure<RequestLocalizationOptions>(
+                opt =>
+                {
+                    var supportedCulteres = new List<CultureInfo>
+                    {
+                        new CultureInfo("en"),
+                        new CultureInfo("tr")
+                    };
+                    opt.DefaultRequestCulture = new RequestCulture("en");
+                    opt.SupportedCultures = supportedCulteres;
+                    opt.SupportedUICultures = supportedCulteres;
+                });
+
+            services.AddTransient<ApplicationIdentityDbContext>();
+            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.Password.RequiredLength = 7;
@@ -50,7 +74,11 @@ namespace BuildingFormsWeb
                 .AddDefaultTokenProviders();
 
             services.AddMvc(option => option.EnableEndpointRouting = false)
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+                .AddDataAnnotationsLocalization()
                 .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Latest);
+                
+                
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,7 +87,10 @@ namespace BuildingFormsWeb
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                var scope = app.ApplicationServices.CreateScope();
+                DataSeeding seeder = new DataSeeding(scope.ServiceProvider.GetService<ApplicationIdentityDbContext>());
                 DataSeeding.Seed(app);
+                seeder.SeedAdminUserAndRoles();
             }
 
             app.UseRouting();
@@ -75,13 +106,31 @@ namespace BuildingFormsWeb
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseRequestLocalization(app.ApplicationServices.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
+
+            //var supportedCultres = new[] { "en", "tr" };
+            //var localizationOptions = new RequestLocalizationOptions().SetDefaultCulture(supportedCultres[0])
+            //    .AddSupportedCultures(supportedCultres)
+            //    .AddSupportedUICultures(supportedCultres);
+
+            //app.UseRequestLocalization(localizationOptions);
+
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                name: "DefaultApi",
+                template: "{api:Exists}/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional }
+                );
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}"
                     );
+                
             });
         }
+
+        
     }
 }
