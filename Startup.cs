@@ -31,23 +31,13 @@ namespace BuildingFormsWeb
         {
             Configuration = configuration;
         }
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-
-            //services.AddDbContext<ProductContext>(options =>
-            //    //options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"))
-            //    options.UseSqlServer(Configuration.GetConnectionString("MsSqlConnection"))
-            //);
 
             services.AddDbContext<ApplicationIdentityDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MsSqlConnection"))
             );
 
-            //services.AddDbContext<ApplicationIdentityDbContext>(options =>
-            //    options.UseNpgsql(Configuration.GetConnectionString("PostgreConnection"))
-            //);
             services.AddLocalization(opt => { opt.ResourcesPath = "Resources"; });
 
             services.Configure<RequestLocalizationOptions>(
@@ -81,7 +71,6 @@ namespace BuildingFormsWeb
                 
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -107,13 +96,6 @@ namespace BuildingFormsWeb
             app.UseAuthorization();
 
             app.UseRequestLocalization(app.ApplicationServices.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
-
-            //var supportedCultres = new[] { "en", "tr" };
-            //var localizationOptions = new RequestLocalizationOptions().SetDefaultCulture(supportedCultres[0])
-            //    .AddSupportedCultures(supportedCultres)
-            //    .AddSupportedUICultures(supportedCultres);
-
-            //app.UseRequestLocalization(localizationOptions);
 
             app.UseMvc(routes =>
             {
